@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import lombok.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -18,17 +17,22 @@ public class Main {
         productIds.add("1");
         productIds.add("2");
 
-        Order newOrder = shopService.addOrder(productIds);
+        try {
+            Order newOrder = shopService.addOrder(productIds);
 
-        // Überprüfen, ob die Bestellung erfolgreich hinzugefügt wurde
-        if (newOrder != null) {
-            System.out.println("Bestellung hinzugefügt: " + newOrder.id());
-        }
+            // Überprüfen, ob die Bestellung erfolgreich hinzugefügt wurde
+            if (newOrder != null) {
+                System.out.println("Bestellung hinzugefügt: " + newOrder.id());
+                System.out.println("Bestellzeitpunkt: " + newOrder.orderTime());
+            }
 
-        // Aktualisieren Sie die Bestellung
-        if (newOrder != null) {
-            shopService.updateOrder(newOrder.id(), Bestellstatus.COMPLETED);
-            System.out.println("Bestellung aktualisiert: " + newOrder.id() + " - Neuer Status: " + newOrder.bestellstatus());
+            // Aktualisieren Sie die Bestellung
+            if (newOrder != null) {
+                shopService.updateOrder(newOrder.id(), Bestellstatus.COMPLETED);
+                System.out.println("Bestellung aktualisiert: " + newOrder.id() + " - Neuer Status: " + newOrder.bestellstatus());
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
         }
 
         // Suchen Sie nach Bestellungen mit einem bestimmten Bestellstatus
@@ -36,6 +40,7 @@ public class Main {
         System.out.println("Bestellungen mit Bestellstatus COMPLETED:");
         for (Order order : ordersByStatus) {
             System.out.println("Bestellung: " + order.id() + ", Status: " + order.bestellstatus());
+            System.out.println("Bestellzeitpunkt: " + order.orderTime());
         }
     }
 }

@@ -1,3 +1,6 @@
+import lombok.*;
+
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,9 +20,12 @@ public class OrderMapRepo implements OrderRepo{
     }
 
     @Override
+    @Builder
     public Order addOrder(Order newOrder) {
-        orders.put(newOrder.id(), newOrder);
-        return newOrder;
+        // Erstellen Sie eine Kopie der neuen Bestellung mit dem aktuellen Zeitpunkt als Bestellzeitpunkt
+        Order orderWithTime = new Order(newOrder.id(), newOrder.products(), newOrder.bestellstatus(), Instant.now());
+        orders.put(orderWithTime.id(), orderWithTime);
+        return orderWithTime;
     }
 
     @Override
