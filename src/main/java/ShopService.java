@@ -15,10 +15,10 @@ public class ShopService {
             if (productToOrder.isPresent()) {
                 products.add(productToOrder.get());
             } else {
-                System.out.println("Product mit der Id: " + productId + " konnte nicht bestellt werden!");
-                return null;
+                throw new IllegalArgumentException("Product mit der Id: " + productId + " konnte nicht bestellt werden!");
             }
         }
+
 
         Order newOrder = new Order(UUID.randomUUID().toString(), products);
 
@@ -33,5 +33,19 @@ public class ShopService {
                 .collect(Collectors.toList());
     }
 
+    public ProductRepo getProductRepo() {
+        return productRepo;
+    }
 
+    public void setProductRepo(ProductRepo productRepo) {
+        this.productRepo = productRepo;
+    }
+
+    public OrderRepo getOrderRepo() {
+        return orderRepo;
+    }
+
+    public void setOrderRepo(OrderRepo orderRepo) {
+        this.orderRepo = orderRepo;
+    }
 }
