@@ -6,8 +6,13 @@ public record Order(
         Bestellstatus bestellstatus
 
 
+
+
 ) {
 
+    public Order(String id, List<Product> products) {
+        this(id, products, Bestellstatus.PROCESSING);
+    }
 }
 
 
