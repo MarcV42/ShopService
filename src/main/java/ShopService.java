@@ -1,12 +1,22 @@
+import lombok.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Getter
 public class ShopService {
     private ProductRepo productRepo = new ProductRepo();
     private OrderRepo orderRepo = new OrderMapRepo();
+
+    public ShopService(ProductRepo productRepo, OrderMapRepo orderMapRepo) {
+    }
+
+    public ShopService() {
+
+    }
 
     public Order addOrder(List<String> productIds) {
         List<Product> products = new ArrayList<>();
@@ -33,16 +43,19 @@ public class ShopService {
                 .collect(Collectors.toList());
     }
 
-    public ProductRepo getProductRepo() {
-        return productRepo;
+    public void updateOrder(String orderId, Bestellstatus newStatus) {
+        Order orderToUpdate = orderRepo.getOrderById(orderId);
+        if (orderToUpdate != null) {
+            Order updatedOrder = orderToUpdate.withStatus(newStatus);
+            orderRepo.updateOrder(updatedOrder); // Vorausgesetzt, es gibt eine Methode zum Aktualisieren in orderRepo
+        } else {
+            throw new IllegalArgumentException("Bestellung mit der orderId: " + orderId + " wurde nicht gefunden!");
+        }
     }
+
 
     public void setProductRepo(ProductRepo productRepo) {
         this.productRepo = productRepo;
-    }
-
-    public OrderRepo getOrderRepo() {
-        return orderRepo;
     }
 
     public void setOrderRepo(OrderRepo orderRepo) {
