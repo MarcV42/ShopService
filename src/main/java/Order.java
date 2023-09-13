@@ -11,6 +11,9 @@ public record Order(
         this(id, products, Bestellstatus.PROCESSING);
     }
 
+    public Order {
+    }
+
     public Order(String id, List<Product> products, Bestellstatus bestellstatus, Instant now) {
         this(id,
                 products,
@@ -29,7 +32,8 @@ public record Order(
         return new Order(this.id, this.products, newStatus);
     }
 
+
     public String orderTime() {
-        return orderTime();
+        return null;
     }
 }
